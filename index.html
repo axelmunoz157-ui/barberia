@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#11110f">
+  <meta name="description" content="Black Oak Barbershop. Cortes clásicos, fades y cuidado de barba. Agenda tu cita por WhatsApp.">
+  <title>Black Oak — Barbería</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #11110f;
+      --panel: #1a1a17;
+      --cream: #f2eee5;
+      --muted: #a7a397;
+      --gold: #c49a56;
+      --line: rgba(242,238,229,.14);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--cream);
+      background: var(--bg);
+      font-family: "DM Sans", sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+    .wrap { width: min(1120px, 90%); margin: auto; }
+
+    header {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      width: 100%;
+      border-bottom: 1px solid var(--line);
+    }
+    nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      font-family: "Playfair Display", serif;
+      font-size: 23px;
+      letter-spacing: 2px;
+    }
+    .brand span { color: var(--gold); }
+    .navlinks { display: flex; gap: 28px; color: #ded9ce; font-size: 14px; }
+    .navlinks a:hover { color: var(--gold); }
+
+    .hero {
+      min-height: 690px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(17,17,15,.96) 0%, rgba(17,17,15,.83) 48%, rgba(17,17,15,.25) 100%),
+        url("https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1900&q=85") center 42%/cover;
+    }
+    .hero:after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 150px;
+      background: linear-gradient(transparent, var(--bg));
+    }
+    .hero-content { max-width: 670px; padding-top: 70px; position: relative; z-index: 1; }
+    .eyebrow { color: var(--gold); text-transform: uppercase; letter-spacing: 3px; font-size: 12px; }
+    h1, h2, h3 { font-family: "Playfair Display", serif; }
+    h1 { font-size: clamp(54px, 8vw, 92px); line-height: .98; margin: 18px 0; }
+    h1 span { color: var(--gold); }
+    .hero p { color: #d0ccc2; line-height: 1.8; max-width: 480px; }
+    .button {
+      display: inline-block;
+      border: 0;
+      background: var(--gold);
+      color: #17140f;
+      padding: 15px 23px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .25s, background .25s;
+    }
+    .button:hover { transform: translateY(-3px); background: #d7b16e; }
+    .button-outline { background: transparent; border: 1px solid var(--line); color: var(--cream); margin-left: 9px; }
+
+    section { padding: 90px 0; }
+    .section-head { margin-bottom: 35px; }
+    .section-head h2 { font-size: clamp(36px, 5vw, 52px); margin: 10px 0; }
+    .section-head p { color: var(--muted); max-width: 540px; line-height: 1.7; }
+
+    .services { background: #171714; }
+    .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .service {
+      border: 1px solid var(--line);
+      padding: 25px;
+      background: linear-gradient(145deg, #20201c, #171714);
+      transition: transform .3s, border-color .3s;
+    }
+    .service:hover { transform: translateY(-6px); border-color: var(--gold); }
+    .service h3 { margin: 0 0 12px; font-size: 22px; }
+    .service p { min-height: 44px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .price { color: var(--gold); font-size: 22px; font-weight: 700; }
+    .duration { color: var(--muted); font-size: 13px; float: right; padding-top: 6px; }
+
+    .booking-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 35px; align-items: start; }
+    .form-card, .summary {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 27px;
+    }
+    .form-card h3, .summary h3 { margin: 0 0 23px; font-size: 25px; }
+    label { display: block; font-size: 13px; color: #ddd8cd; margin: 17px 0 8px; }
+    select, input[type="date"] {
+      width: 100%;
+      background: #11110f;
+      color: var(--cream);
+      border: 1px solid var(--line);
+      padding: 13px;
+      outline: none;
+    }
+    select:focus, input:focus { border-color: var(--gold); }
+    .slots { display: flex; flex-wrap: wrap; gap: 9px; }
+    .slot {
+      background: #11110f; color: var(--cream);
+      border: 1px solid var(--line); padding: 10px 14px; cursor: pointer;
+    }
+    .slot:hover, .slot.selected { background: var(--gold); color: #17140f; border-color: var(--gold); }
+    .slot:disabled { opacity: .35; cursor: not-allowed; text-decoration: line-through; }
+    .summary { position: sticky; top: 20px; }
+    .summary p { color: var(--muted); border-bottom: 1px solid var(--line); padding: 0 0 13px; }
+    .summary strong { color: var(--cream); }
+    .total { font-size: 22px; color: var(--gold) !important; border: 0 !important; }
+    .summary .button { width: 100%; text-align: center; margin-top: 8px; }
+    .note { font-size: 12px; line-height: 1.6; color: var(--muted); }
+
+    .about {
+      background: linear-gradient(90deg, rgba(17,17,15,.94), rgba(17,17,15,.7)),
+      url("https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=1800&q=80") center/cover;
+    }
+    .about-copy { max-width: 600px; }
+    .about-copy p { color: #d0ccc2; line-height: 1.8; }
+    footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); font-size: 13px; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
+
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s, transform .7s; }
+    .reveal.visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *:before, *:after { scroll-behavior: auto !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+    @media (max-width: 760px) {
+      .navlinks { gap: 13px; font-size: 12px; }
+      .hero { min-height: 620px; background-position: 58% center; }
+      .service-grid { grid-template-columns: 1fr; }
+      .booking-grid { grid-template-columns: 1fr; }
+      .summary { position: static; }
+      section { padding: 68px 0; }
+    }
+    @media (max-width: 430px) {
+      .navlinks a:first-child { display: none; }
+      .button-outline { margin: 10px 0 0; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="wrap">
+      <a class="brand" href="#">BLACK <span>OAK</span></a>
+      <div class="navlinks">
+        <a href="#servicios">Servicios</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#reservar">Reservar</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-content reveal">
+        <div class="eyebrow">Barbería • Estilo • Tradición</div>
+        <h1>El estilo<br>se lleva <span>bien.</span></h1>
+        <p>Cortes precisos, atención personal y un espacio para tomarte un momento. Tu próximo look empieza aquí.</p>
+        <a class="button" href="#reservar">Reserva tu cita</a>
+        <a class="button button-outline" href="#servicios">Ver servicios</a>
+      </div>
+    </section>
+
+    <section class="services" id="servicios">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">Lo que hacemos</div>
+          <h2>Servicios de barbería</h2>
+          <p>Precios y duraciones de ejemplo: actualízalos para que coincidan con tu negocio.</p>
+        </div>
+        <div class="service-grid">
+          <article class="service reveal">
+            <h3>Corte clásico</h3><p>Corte personalizado con acabado limpio y estilizado.</p>
+            <span class="price">$25</span><span class="duration">30 min</span>
+          </article>
+          <article class="service reveal">
+            <h3>Corte + barba</h3><p>Corte completo y arreglo de barba con navaja.</p>
+            <span class="price">$40</span><span class="duration">50 min</span>
+          </article>
+          <article class="service reveal">
+            <h3>Fade</h3><p>Degradado preciso, contornos definidos y acabado a tu gusto.</p>
+            <span class="price">$30</span><span class="duration">40 min</span>
+          </article>
+          <article class="service reveal">
+            <h3>Arreglo de barba</h3><p>Perfilado, recorte y cuidado para una barba impecable.</p>
+            <span class="price">$20</span><span class="duration">25 min</span>
+          </article>
+          <article class="service reveal">
+            <h3>Afeitado clásico</h3><p>Afeitado tradicional con toalla caliente y productos de cuidado.</p>
+            <span class="price">$22</span><span class="duration">30 min</span>
+          </article>
+          <article class="service reveal">
+            <h3>Corte junior</h3><p>Un corte cómodo y con estilo para los más jóvenes.</p>
+            <span class="price">$20</span><span class="duration">30 min</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="reservar">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div class="eyebrow">Reserva en unos pasos</div>
+          <h2>Agenda tu cita</h2>
+          <p>Elige servicio, barbero, fecha y horario. Revisa el resumen y envíanos los detalles por WhatsApp.</p>
+        </div>
+
+        <div class="booking-grid">
+          <div class="form-card reveal">
+            <h3>Tu reserva</h3>
+
+            <label for="service">Servicio</label>
+            <select id="service">
+              <option value="Corte clásico" data-price="25">Corte clásico — $25</option>
+              <option value="Corte + barba" data-price="40">Corte + barba — $40</option>
+              <option value="Fade" data-price="30">Fade — $30</option>
+              <option value="Arreglo de barba" data-price="20">Arreglo de barba — $20</option>
+              <option value="Afeitado clásico" data-price="22">Afeitado clásico — $22</option>
+              <option value="Corte junior" data-price="20">Corte junior — $20</option>
+            </select>
+
+            <label for="barber">Barbero</label>
+            <select id="barber">
+              <option>Alex</option>
+              <option>Mateo</option>
+              <option>Sin preferencia</option>
+            </select>
+
+            <label for="date">Fecha</label>
+            <input id="date" type="date">
+
+            <label>Horario disponible de ejemplo</label>
+            <div class="slots" id="slots"></div>
+          </div>
+
+          <aside class="summary reveal">
+            <h3>Resumen</h3>
+            <p>Servicio: <strong id="sumService">Corte clásico</strong></p>
+            <p>Barbero: <strong id="sumBarber">Alex</strong></p>
+            <p>Fecha: <strong id="sumDate">Selecciona una fecha</strong></p>
+            <p>Hora: <strong id="sumTime">Selecciona un horario</strong></p>
+            <p class="total">Total: <strong id="sumPrice">$25</strong></p>
+            <button class="button" id="send">Solicitar por WhatsApp</button>
+            <p class="note">Los horarios son de muestra. La cita queda pendiente de confirmación por WhatsApp.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="about" id="nosotros">
+      <div class="wrap about-copy reveal">
+        <div class="eyebrow">Black Oak Barbershop</div>
+        <h2>Un buen corte<br>cambia el día.</h2>
+        <p>Nos importa el detalle: escuchar lo que buscas, recomendarte un estilo y cuidar cada acabado. Ven por tu corte y quédate por la experiencia.</p>
+        <a class="button" href="#reservar">Encuentra tu horario</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span id="year"></span> Black Oak Barbershop</span>
+      <span>Dirección y horario: agrega aquí los datos de tu negocio</span>
+    </div>
+  </footer>
+
+  <script>
+    // CAMBIA este número por tu WhatsApp, con código de país y sin +, espacios ni guiones.
+    const WHATSAPP_NUMBER = "16319858029";
+
+    const times = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+    const service = document.querySelector("#service");
+    const barber = document.querySelector("#barber");
+    const dateInput = document.querySelector("#date");
+    const slotsEl = document.querySelector("#slots");
+    let selectedTime = "";
+
+    const today = new Date();
+    const localToday = new Date(today.getTime() - today.getTimezoneOffset() * 60000)
+      .toISOString().split("T")[0];
+    dateInput.min = localToday;
+
+    function selectedPrice() {
+      return service.options[service.selectedIndex].dataset.price;
+    }
+
+    function refreshSummary() {
+      document.querySelector("#sumService").textContent = service.value;
+      document.querySelector("#sumBarber").textContent = barber.value;
+      document.querySelector("#sumPrice").textContent = "$" + selectedPrice();
+
+      if (dateInput.value) {
+        const [y, m, d] = dateInput.value.split("-");
+        document.querySelector("#sumDate").textContent = `${d}/${m}/${y}`;
+      } else {
+        document.querySelector("#sumDate").textContent = "Selecciona una fecha";
+      }
+      document.querySelector("#sumTime").textContent = selectedTime || "Selecciona un horario";
+    }
+
+    function renderSlots() {
+      slotsEl.innerHTML = "";
+      selectedTime = "";
+      times.forEach(time => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "slot";
+        button.textContent = time;
+
+        // Simula algunos horarios ocupados, para mostrar disponibilidad de ejemplo.
+        const day = dateInput.value ? Number(dateInput.value.slice(-2)) : 0;
+        const unavailable = dateInput.value && (day + Number(time.slice(0, 2))) % 5 === 0;
+        button.disabled = !dateInput.value || unavailable;
+
+        button.addEventListener("click", () => {
+          document.querySelectorAll(".slot").forEach(item => item.classList.remove("selected"));
+          button.classList.add("selected");
+          selectedTime = time;
+          refreshSummary();
+        });
+        slotsEl.appendChild(button);
+      });
+      refreshSummary();
+    }
+
+    service.addEventListener("change", refreshSummary);
+    barber.addEventListener("change", refreshSummary);
+    dateInput.addEventListener("change", () => {
+      if (dateInput.value && dateInput.value < localToday) dateInput.value = localToday;
+      renderSlots();
+    });
+
+    document.querySelector("#send").addEventListener("click", () => {
+      if (!dateInput.value || !selectedTime) {
+        alert("Selecciona una fecha y un horario antes de continuar.");
+        return;
+      }
+      const [y, m, d] = dateInput.value.split("-");
+      const message =
+        `Hola, quiero solicitar una cita en Black Oak.%0A` +
+        `Servicio: ${encodeURIComponent(service.value)}%0A` +
+        `Barbero: ${encodeURIComponent(barber.value)}%0A` +
+        `Fecha: ${d}/${m}/${y}%0A` +
+        `Hora: ${encodeURIComponent(selectedTime)}%0A` +
+        `Precio: $${selectedPrice()}`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank");
+    });
+
+    document.querySelector("#year").textContent = new Date().getFullYear();
+    renderSlots();
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
